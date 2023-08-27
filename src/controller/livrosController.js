@@ -3,8 +3,8 @@ import livros from "../models/Livro.js";
 class LivroController {
   static listarLivros = async (req, res) => {
     try {
-      const livrosResultado = await livros.find().populate("autor").exec();
-      res.status(200).json(livrosResultado);
+      const response = await livros.find().populate("autor").exec();
+      res.status(200).json(response);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -12,8 +12,8 @@ class LivroController {
   static listarLivrosPorId = async (req, res) => {
     const { id } = req.params;
     try {
-      const resposta = await livros.findById(id).populate("autor", "nome");
-      res.status(200).send(resposta);
+      const response = await livros.findById(id).populate("autor", "nome");
+      res.status(200).send(response);
     } catch (err) {
       res
         .status(400)
@@ -39,7 +39,7 @@ class LivroController {
     const livro = req.body;
 
     try {
-      const response = await livros.findByIdAndUpdate(id, livro);
+      await livros.findByIdAndUpdate(id, livro);
       res.status(200).send({ message: "Livro atualizado com sucesso" });
     } catch (err) {
       res.status(500).send({ message: err.message });
@@ -49,7 +49,7 @@ class LivroController {
   static deleteLivros = async (req, res) => {
     const { id } = req.params;
     try {
-      const response = await livros.findByIdAndDelete(id);
+      await livros.findByIdAndDelete(id);
       res.status(200).send({ message: "Livro removido com sucesso" });
     } catch (err) {
       res.status(500).send({ message: err.menssage });
@@ -60,9 +60,9 @@ class LivroController {
     const editora = req.query.editora;
 
     try {
-      const response = await livros.find({ editora: editora });
+      await livros.find({ editora: editora });
       res.status(200).send(livros);
-    } catch (error) {
+    } catch (err) {
       res.status(404).send({ message: `${err.menssage} - não encontrado` });
     }
   };

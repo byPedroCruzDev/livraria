@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { string } from "pg-format";
 
 const livroSchema = new mongoose.Schema({
   id: { type: String },

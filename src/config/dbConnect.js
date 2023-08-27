@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
+import "dotenv/config";
+mongoose.connect(process.env.DB_CONECT);
 
-mongoose.connect(
-  "mongodb+srv://pedrocruz:1234@cluster0.1n3hkqk.mongodb.net/?retryWrites=true&w=majority"
-);
-
-let db = mongoose.connection;
+const db = mongoose.connection;
 
 export default db;

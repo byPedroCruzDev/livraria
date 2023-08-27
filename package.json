@@ -9,13 +9,18 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "PedroCruz <contatocreed67@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "eslint-config-google": "^0.14.0",
     "nodemon": "^2.0.15"
   },
   "dependencies": {
+    "dotenv": "^16.3.1",
+    "eslint": ">=5.16.0",
     "express": "^4.17.3",
     "mongoose": "^7.4.1"
-  }
+  },
+  "repository": "git@github.com:byPedroCruzDev/livraria.git",
+  "private": false
 }

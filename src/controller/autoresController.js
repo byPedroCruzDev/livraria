@@ -10,15 +10,17 @@ class AutorController {
     }
   };
 
-  static listarAutorPorId = async (req, res) => {
+  static listarAutorPorId = async (req, res, next) => {
     const { id } = req.params;
     try {
       const response = await autores.findById(id);
-      res.status(200).send(response);
+      if (response) {
+        res.status(200).send(response);
+      } else {
+        res.status(404).send({ menssage: "- id do autor não encontrado " });
+      }
     } catch (err) {
-      res
-        .status(400)
-        .send({ menssage: `${err.menssage} - id do autor não encontrado ` });
+      next(err);
     }
   };
 
@@ -40,7 +42,7 @@ class AutorController {
     const autor = req.body;
 
     try {
-      const response = await autores.findByIdAndUpdate(id, autor);
+      await autores.findByIdAndUpdate(id, autor);
       res.status(200).send({ message: "Autor atualizado com sucesso" });
     } catch (err) {
       res.status(500).send({ message: err.message });
@@ -50,7 +52,7 @@ class AutorController {
   static deleteAutor = async (req, res) => {
     const { id } = req.params;
     try {
-      const response = await autores.findByIdAndDelete(id);
+      await autores.findByIdAndDelete(id);
       res.status(200).send({ message: "Autor removido com sucesso" });
     } catch (err) {
       res.status(500).send({ message: err.menssage });

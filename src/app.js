@@ -1,7 +1,7 @@
 import express from "express";
 import db from "./config/dbConnect.js";
-import { livroRouter } from "./routes/livroRoutes.js";
-import { autorRouter } from "./routes/autorRoutes.js";
+import {livroRouter} from "./routes/livroRoutes.js";
+import {autorRouter} from "./routes/autorRoutes.js";
 
 db.on("error", console.log.bind(console, "Erro de conexão"));
 db.once("open", () => {
