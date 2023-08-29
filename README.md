@@ -16,5 +16,3 @@ You can test all routes at your computer with Insomnia help. To run the api loca
 yarn run dev
 ```
 When you run the application, it is gonna work in ``localhost:3000``. -->
-
-## Table of Content
