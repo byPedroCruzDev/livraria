@@ -1,4 +1,5 @@
 import autores from "../models/Autor.js";
+import NaoEncontrado from "../errors/NaoEncontrado.js";
 
 class AutorController {
   static listarAutores = async (req, res) => {
@@ -6,7 +7,7 @@ class AutorController {
       const response = await autores.find();
       res.status(200).json(response);
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json({ message: "Erro interno do servidor" });
     }
   };
 
@@ -17,45 +18,51 @@ class AutorController {
       if (response) {
         res.status(200).send(response);
       } else {
-        res.status(404).send({ menssage: "- id do autor não encontrado " });
+        next(new NaoEncontrado("Id do autor nao encontrado"));
       }
     } catch (err) {
       next(err);
     }
   };
 
-  static cadastrarAutor = async (req, res) => {
+  static cadastrarAutor = async (req, res, next) => {
     const autor = new autores(req.body);
 
     try {
       const response = await autor.save();
       res.status(201).send(response.toJSON());
     } catch (err) {
-      res
-        .status(500)
-        .send({ message: `${err.message} - falha ao cadastrar autor` });
+      next(err);
     }
   };
 
-  static atualizarAutor = async (req, res) => {
+  static atualizarAutor = async (req, res, next) => {
     const { id } = req.params;
     const autor = req.body;
 
     try {
-      await autores.findByIdAndUpdate(id, autor);
-      res.status(200).send({ message: "Autor atualizado com sucesso" });
+      const response = await autores.findByIdAndUpdate(id, autor);
+      if (response) {
+        res.status(200).send({ message: "Autor atualizado com sucesso" });
+      } else {
+        next(new NaoEncontrado("Id do Autor nao localizado"));
+      }
     } catch (err) {
-      res.status(500).send({ message: err.message });
+      next(err);
     }
   };
 
-  static deleteAutor = async (req, res) => {
+  static deleteAutor = async (req, res, next) => {
     const { id } = req.params;
     try {
-      await autores.findByIdAndDelete(id);
-      res.status(200).send({ message: "Autor removido com sucesso" });
+      const response = await autores.findByIdAndDelete(id);
+      if (response) {
+        res.status(200).send({ message: "Autor removido com sucesso" });
+      } else {
+        next(new NaoEncontrado("Id do autor nao encontrado"));
+      }
     } catch (err) {
-      res.status(500).send({ message: err.menssage });
+      next(err);
     }
   };
 }
