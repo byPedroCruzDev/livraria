@@ -4,8 +4,10 @@ import { livros } from "../models/index.js";
 class LivroController {
   static listarLivros = async (req, res, next) => {
     try {
-      const response = await livros.find().populate("autor").exec();
-      res.status(200).json(response);
+      const response = livros.find();
+      req.resultado = response;
+
+      next();
     } catch (err) {
       next(err);
     }
